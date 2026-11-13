@@ -132,6 +132,8 @@ function App() {
                 key={usuario.id}
                 nome={usuario.name}
                 email={usuario.email}
+                empresa={usuario.company.name}
+                cidade={usuario.address.city}
                 onClick={() => setUsuarioSelecionado(usuario)}
               />
             ))

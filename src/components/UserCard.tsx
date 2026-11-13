@@ -2,12 +2,16 @@
 type UserCardProps = {
   nome: string;
   email: string;
+  empresa: string;
+  cidade: string;
   onClick: () => void;
 };
 
 export function UserCard({
   nome,
   email,
+  empresa,
+  cidade,
   onClick,
 }: UserCardProps) {
   const iniciais = nome
@@ -30,9 +34,17 @@ export function UserCard({
         <small>{email}</small>
       </span>
 
-      <span className="user-action">
-        Ver detalhes <span aria-hidden="true">›</span>
+      <span className="user-extra">
+        <small>Empresa</small>
+        <strong>{empresa}</strong>
       </span>
+
+      <span className="user-extra">
+        <small>Cidade</small>
+        <strong>{cidade}</strong>
+      </span>
+
+      <span className="user-action" aria-hidden="true">›</span>
     </button>
   );
 }
