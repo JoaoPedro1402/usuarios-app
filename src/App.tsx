@@ -2,19 +2,8 @@
 import { useEffect, useState } from "react";
 import { UserCard } from "./components/UserCard";
 import "./App.css";
-
-type Usuario = {
-  id: number;
-  name: string;
-  email: string;
-  phone: string;
-  company: {
-    name: string;
-  };
-  address: {
-    city: string;
-  };
-};
+import type { Usuario } from "./types/Usuario";
+import { UserModal } from "./components/UserModal";
 
 function App() {
   const [usuarios, setUsuarios] = useState<Usuario[]>([]);
@@ -151,30 +140,11 @@ function App() {
       )}
 
       {usuarioSelecionado && (
-        <div className="modal-overlay">
-          <section
-            className="modal"
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="titulo-modal"
-          >
-            <h2 id="titulo-modal">Detalhes do usuário</h2>
-
-            <p>Nome: {usuarioSelecionado.name}</p>
-            <p>Email: {usuarioSelecionado.email}</p>
-            <p>Telefone: {usuarioSelecionado.phone}</p>
-            <p>Empresa: {usuarioSelecionado.company.name}</p>
-            <p>Cidade: {usuarioSelecionado.address.city}</p>
-
-            <button
-              type="button"
-              onClick={() => setUsuarioSelecionado(null)}
-            >
-              Fechar
-            </button>
-          </section>
-        </div>
-      )}
+  <UserModal
+    usuario={usuarioSelecionado}
+    onClose={() => setUsuarioSelecionado(null)}
+  />
+)}
     </main>
   );
 }
