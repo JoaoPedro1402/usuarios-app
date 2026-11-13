@@ -1,75 +1,139 @@
-# React + TypeScript + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# Diretório de Usuários
 
-Currently, two official plugins are available:
+Aplicação web desenvolvida com React e TypeScript para consulta e visualização de usuários a partir de uma API REST pública.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+O projeto permite listar usuários, realizar pesquisas por nome e consultar informações individuais por meio de uma interface responsiva. A implementação contempla gerenciamento de estados, tratamento de erros, componentização e tipagem estática.
 
-## React Compiler
+## Tecnologias
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **React** — construção da interface e gerenciamento de estado.
+- **TypeScript** — tipagem de dados, componentes e propriedades.
+- **Vite** — ambiente de desenvolvimento e geração da versão de produção.
+- **CSS3** — estilização, responsividade e feedback visual.
+- **Fetch API** — comunicação HTTP com a API externa.
+- **ESLint** — análise estática do código.
 
-## Expanding the ESLint configuration
+## Funcionalidades
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- Listagem de usuários obtidos de uma API REST.
+- Pesquisa por nome, sem diferenciação entre letras maiúsculas e minúsculas.
+- Atualização da listagem conforme o termo pesquisado.
+- Restauração da listagem completa ao limpar a pesquisa.
+- Visualização de detalhes individuais em um modal.
+- Exibição de nome, e-mail, telefone, empresa e cidade.
+- Indicadores visuais de carregamento.
+- Tratamento de falhas na requisição HTTP.
+- Mensagem específica quando nenhum usuário corresponde à pesquisa.
+- Interface adaptável a diferentes tamanhos de tela.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Instalação e execução
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### Pré-requisitos
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- Node.js compatível com a versão do Vite utilizada.
+- npm.
 
+### 1. Clonar o repositório
+
+```bash
+git clone https://github.com/JoaoPedro1402/usuarios-app.git
 ```
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
+### 2. Acessar o diretório
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```bash
+cd usuarios-app
 ```
+
+### 3. Instalar as dependências
+
+```bash
+npm install
+```
+
+### 4. Iniciar o ambiente de desenvolvimento
+
+```bash
+npm run dev
+```
+
+O Vite informará no terminal o endereço local para acessar a aplicação.
+
+## Comandos disponíveis
+
+| Comando | Descrição |
+| --- | --- |
+| `npm run dev` | Inicia o servidor de desenvolvimento. |
+| `npm run build` | Executa a compilação TypeScript e gera o build de produção. |
+| `npm run preview` | Permite visualizar localmente o build gerado. |
+| `npm run lint` | Executa a análise estática com ESLint. |
+
+## Estrutura do projeto
+
+```text
+src/
+├── components/
+│   ├── UserCard.tsx
+│   └── UserModal.tsx
+├── types/
+│   └── Usuario.ts
+├── App.tsx
+├── App.css
+├── index.css
+└── main.tsx
+```
+
+### Organização dos arquivos
+
+- **App.tsx:** coordena a consulta à API, os estados da aplicação, a pesquisa e a seleção de usuários.
+- **UserCard.tsx:** componente responsável pela apresentação individual dos usuários na listagem.
+- **UserModal.tsx:** componente de visualização das informações detalhadas de um usuário.
+- **Usuario.ts:** define a estrutura dos dados utilizados pela aplicação.
+- **App.css e index.css:** contêm os estilos da interface e as regras de responsividade.
+- **main.tsx:** ponto de entrada da aplicação React.
+
+## Integração com a API
+
+Os dados são obtidos da API pública JSONPlaceholder:
+
+```http
+GET https://jsonplaceholder.typicode.com/users
+```
+
+A requisição é realizada por meio da Fetch API durante o carregamento inicial da aplicação.
+
+Após a resposta, os dados são armazenados no estado do React e utilizados na renderização dos componentes.
+
+A pesquisa é executada localmente sobre os dados carregados, sem necessidade de uma nova requisição HTTP a cada consulta.
+
+### Tratamento de estados
+
+A aplicação considera os seguintes cenários:
+
+- **Carregamento:** exibição de um indicador enquanto a requisição está em andamento.
+- **Sucesso:** apresentação dos usuários retornados pela API.
+- **Erro:** exibição de uma mensagem quando a requisição falha ou retorna um status HTTP inválido.
+- **Pesquisa sem resultados:** apresentação de uma mensagem informando que nenhum usuário corresponde ao termo pesquisado.
+
+## Decisões de implementação
+
+A interface foi organizada em componentes para separar a apresentação dos usuários da lógica principal da aplicação.
+
+O TypeScript é utilizado para definir a estrutura das informações recebidas da API e os contratos de propriedades dos componentes.
+
+A pesquisa foi implementada no cliente, considerando o volume reduzido de registros disponibilizados pelo endpoint.
+
+A estilização foi desenvolvida com CSS, sem dependência de bibliotecas adicionais de componentes.
+
+## Escopo
+
+Este projeto utiliza dados fictícios disponibilizados pelo JSONPlaceholder e não realiza operações de cadastro, edição ou exclusão.
+
+A aplicação tem como finalidade demonstrar consumo de API REST, manipulação de dados, componentização e construção de interfaces com React e TypeScript.
+
+## Autor
+
+João Pedro Coelho
+
+GitHub: [JoaoPedro1402](https://github.com/JoaoPedro1402)
